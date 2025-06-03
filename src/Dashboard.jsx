@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { spotifyAPI } from './api/spotifyAPI';
+import './Dashboard.css'; 
 
 const Dashboard = () => {
   const selectTypes = [
@@ -17,8 +18,21 @@ const Dashboard = () => {
   });
 
   const [deviceId, setDeviceId] = useState()
-
   const [results, setResults] = useState([]);
+  const [favorites, setFavorites] = useState([]);
+
+
+  const handleAddFavorite = (item) => {
+    console.log(item)
+    const isAlreadyFav = favorites.some((fav) => fav.uri === item.uri);
+
+    if (isAlreadyFav) {
+      console.log('Item already in favorites');
+      setFavorites((prev) => prev.filter((el) => el.uri !== item.uri));
+    } else {
+      setFavorites((prev) => [...prev, item]);
+    }
+  }
 
   const handleChange = (e) => {
 
@@ -29,6 +43,22 @@ const Dashboard = () => {
     }
     console.log(newFom);
     setSearch(newFom);
+  }
+
+  const createFavs = async (favorites) => {
+    console.log(favorites);
+    const userId = 2
+    const url = `http://localhost:3000/api/users/${userId}/favorites`;
+
+    const data = {
+      items: favorites,
+    }
+    const result = await spotifyAPI(url, 'POST', JSON.stringify(data), null);
+    console.log("ya se guardaron los favoritos", result);
+  }
+
+  const saveFavs = async() => {
+    await createFavs(favorites);
   }
 
   const handleSearch = async () => {
@@ -66,45 +96,43 @@ const Dashboard = () => {
     const play = await spotifyAPI(url, 'PUT', JSON.stringify(data), token)
     console.log(play)
   }
+
   return (
     <>
-      <div>Dashboard</div>
-      <button onClick={getDeviceId}>GET DEVICE ID</button>
-      <p>Search</p>
-      <input
-        name="song"
-        type="text"
-        value={search.song}
-        onChange={handleChange}
-      />
-      <p>Select Types:</p>
-      <select name="types" value={search.types} onChange={handleChange} >
-        {selectTypes.map((type) => (
-          <option key={type} value={type}>
-            {type}
-          </option>
+      <div className="Dashboard">
+      < button onClick={getDeviceId}>GET DEVICE ID</button>
+        <button onClick={saveFavs}>SAVE FAVS</button>
+        <p>Search</p>
+        <input
+          name="song"
+          type="text"
+          value={search.song}
+          onChange={handleChange}
+        />
+        <p>Select Types:</p>
+        <select name="types" value={search.types} onChange={handleChange} >
+          {selectTypes.map((type) => (
+            <option key={type} value={type}>
+              {type}
+            </option>
+          ))}
+        </select>
+
+        <button onClick={handleSearch}>Search</button>
+      </div>
+      <div className="results-container">
+        {results.map((result, idx) => (
+          <div className="result-card" key={idx}>
+            <img src={result.album.images[0].url} width={150} />
+            <p>{result.name}</p>
+            <p>{result.artists[0].name}</p>
+            <div className="actions">
+              <button onClick={() => handlePlay(result.uri)}>Play</button>
+              <button onClick={() => handleAddFavorite(result)}>Add favorite</button>
+            </div>
+          </div>
         ))}
-      </select>
-
-      <button onClick={handleSearch}>Search</button>
-
-      {results.map((result, idx) => (
-        <div key={idx}>
-            <div>
-                <img 
-                    src={result.album.images[0].url}
-                    width={150}
-                />
-            </div>
-            <div>
-                <p>{result.name}</p>
-                <p>{result.artists[0].name}</p>
-            </div>
-            <div>
-                <button onClick={() => handlePlay(result.uri)}>Play </button>
-            </div>
-        </div>
-      ))}
+      </div>
     </>
   );
 };

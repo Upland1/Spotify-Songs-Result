@@ -12,14 +12,15 @@ function App() {
     console.log(code)
   };
 
+  const getUsers = async() => {
+    const url = "http://localhost:3000/api/users";
+    const res = await spotifyAPI(url, 'GET', null);
+    console.log(res);
+ }
 
-  // useEffect(() => {
-  //   const urlParams = new URLSearchParams(window.location.search);
-  //   const code = urlParams.get("code");
-  //   if (code) {
-  //     getToken();
-  //   }
-  // }, []);
+  useEffect(() => {
+    getUsers()
+  }, []);
   
   const handleGetToken = () => {
     getToken();
@@ -28,7 +29,7 @@ function App() {
 
   return (
     <>
-      <h1>Hola mundo</h1>
+      <h1>Spotify Forms</h1>
       <button onClick={handleSetup}>START SETUP</button>
       <button onClick={handleGetToken}>GET TOKEN</button>
     </>

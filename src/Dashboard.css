@@ -1,0 +1,88 @@
+body {
+  background-color: #121212;
+  color: #FFFFFF;
+  font-family: 'Helvetica Neue', Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+div {
+  box-sizing: border-box;
+}
+
+.Dashboard {
+  padding: 2rem;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+input,
+select {
+  background-color: #282828;
+  color: #FFFFFF;
+  border: none;
+  padding: 0.5rem 1rem;
+  margin-bottom: 1rem;
+  border-radius: 20px;
+  outline: none;
+  font-size: 1rem;
+}
+
+select option {
+  background-color: #121212;
+  color: white;
+}
+
+button {
+  background-color: #1db954;
+  color: #FFFFFF;
+  border: none;
+  padding: 0.5rem 1.2rem;
+  border-radius: 20px;
+  margin: 0.5rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+button:hover {
+  background-color: #1ed760;
+}
+
+.results-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1.5rem;
+  margin-top: 2rem;
+}
+
+.result-card {
+  background-color: #181818;
+  padding: 1rem;
+  border-radius: 16px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  text-align: center;
+  transition: transform 0.2s;
+}
+
+.result-card:hover {
+  transform: scale(1.02);
+}
+
+.result-card img {
+  border-radius: 12px;
+  width: 100%;
+  height: auto;
+  margin-bottom: 1rem;
+}
+
+.result-card p {
+  margin: 0.3rem 0;
+  font-size: 1rem;
+}
+
+.actions {
+  margin-top: 0.5rem;
+  display: flex;
+  justify-content: space-evenly;
+}

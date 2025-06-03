@@ -1,5 +1,5 @@
-import React from "react";
 import { useState } from "react";
+import { spotifyAPI } from "./api/spotifyAPI";
 
 const Register = () => {
   const [form, setForm] = useState({
@@ -18,6 +18,16 @@ const Register = () => {
 
     setForm(newForm);
   };
+
+  const handleRegistro = async () => {
+    const url = 'http://localhost:3000/api/users';
+    console.log({ form });
+    const data = JSON.stringify(form);
+    console.log({ data });
+    const res = await spotifyAPI(url, 'POST', data, null);
+    console.log(res);
+  };
+
   return (
     <>
       <div
@@ -34,9 +44,6 @@ const Register = () => {
           }}
         >
             <div>
-                <h1>
-                    Hola
-                </h1>
             </div>
         </div>
 
@@ -96,6 +103,9 @@ const Register = () => {
                 value={form.password}
               />
             </label>
+            <div>
+              <button onClick={handleRegistro}>Registro</button>
+            </div>
           </div>
         </div>
       </div>
