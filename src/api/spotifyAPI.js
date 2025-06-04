@@ -1,11 +1,11 @@
 export const spotifyAPI = async(url, method, body, token) => {
     const response = await fetch(url, {
-        method: method,
+        method,
         headers: {
             'Content-Type':'application/json',
             Authorization: `Bearer ${token}`,
         },
-        body:body ?? null
+        body:body ?? null,
     })
     
     if (!response.ok) {

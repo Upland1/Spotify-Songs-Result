@@ -3,27 +3,20 @@ import { spotifyAPI } from "./api/spotifyAPI";
 
 const Register = () => {
   const [form, setForm] = useState({
-    firstName: "",
-    lastName: "",
+    name: "",
     email: "",
     password: "",
   });
 
   const handleChange = (e) => {
     const { value, name } = e.target;
-    const newForm = {
-      ...form,
-      [name]: value,
-    };
-
-    setForm(newForm);
+    setForm((prev) => ({ ...prev, [name]: value }));
   };
 
   const handleRegistro = async () => {
     const url = 'http://localhost:3000/api/users';
-    console.log({ form });
     const data = JSON.stringify(form);
-    console.log({ data });
+    console.log({ form });
     const res = await spotifyAPI(url, 'POST', data, null);
     console.log(res);
   };
@@ -43,8 +36,9 @@ const Register = () => {
             backgroundColor: "#f0f0f0",
           }}
         >
-            <div>
-            </div>
+          <div>
+            {/* Aquí puedes añadir un logo o ilustración */}
+          </div>
         </div>
 
         {/* Lado derecho: formulario */}
@@ -58,35 +52,26 @@ const Register = () => {
         >
           <div
             style={{
-                display: "flex",
-                flexDirection: "column",
-                justifyContent: "space-between",
-                height: "60%", 
-                maxHeight: "500px",
-                gap: "10px",
-                width: "200px",
-              }}
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "space-between",
+              height: "60%",
+              maxHeight: "500px",
+              gap: "10px",
+              width: "200px",
+            }}
           >
             <label>
-              First Name:
+              Nombre:
               <input
                 type="text"
-                name="firstName"
+                name="name"
                 onChange={handleChange}
-                value={form.firstName}
+                value={form.name}
               />
             </label>
             <label>
-              Last Name:
-              <input
-                type="text"
-                name="lastName"
-                onChange={handleChange}
-                value={form.lastName}
-              />
-            </label>
-            <label>
-              Email:
+              Correo:
               <input
                 type="text"
                 name="email"
@@ -95,7 +80,7 @@ const Register = () => {
               />
             </label>
             <label>
-              Password:
+              Contraseña:
               <input
                 type="password"
                 name="password"
@@ -104,7 +89,7 @@ const Register = () => {
               />
             </label>
             <div>
-              <button onClick={handleRegistro}>Registro</button>
+              <button onClick={handleRegistro}>Registrar</button>
             </div>
           </div>
         </div>

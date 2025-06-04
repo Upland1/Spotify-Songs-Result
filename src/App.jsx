@@ -1,39 +1,39 @@
-import "./App.css";
-import { useEffect } from "react";
-import { getToken } from "./getToken";
-import { getDataAuth, authFlow } from "./setup";
-import { useNavigate } from "react-router";
+import { useNavigate } from 'react-router';
+import './App.css';
+import { useEffect } from 'react';
+import { spotifyAPI } from './api/spotifyAPI';
 
 function App() {
-  const navigate = useNavigate()
-  const handleSetup = async() => {
-    const code = await getDataAuth();
-    authFlow(code);
-    console.log(code)
+
+  const navigate=useNavigate();
+
+  const handleRegister = () => {
+    navigate('/register')
   };
 
-  const getUsers = async() => {
-    const url = "http://localhost:3000/api/users";
-    const res = await spotifyAPI(url, 'GET', null);
-    console.log(res);
+  const handleLogin = () => {
+    navigate('/login')
+  };
+
+ const getUsers = async() => {
+  const url = "http://localhost:3000/api/users";
+   const res = await spotifyAPI(url, 'GET', null);
+   console.log(res);
  }
 
   useEffect(() => {
-    getUsers()
-  }, []);
-  
-  const handleGetToken = () => {
-    getToken();
-    navigate('/dashboard')
-  };
+    getUsers();
+  }, [])
 
   return (
-    <>
-      <h1>Spotify Forms</h1>
-      <button onClick={handleSetup}>START SETUP</button>
-      <button onClick={handleGetToken}>GET TOKEN</button>
-    </>
+    <div className="container">
+      <h1>Spotify Login</h1>
+      <button onClick={handleLogin}>Login</button>
+      <button onClick={handleRegister}>Register</button>
+    </div>
   );
 }
 
 export default App;
+
+
